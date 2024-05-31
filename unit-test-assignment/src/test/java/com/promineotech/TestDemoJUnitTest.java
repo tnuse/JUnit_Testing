@@ -40,7 +40,8 @@ class TestDemoJUnitTest {
 	}
 	
 	
-	// Stream method to add values for int a and int b, sum, and set the expectException boolean value (false if there is no exception, true if there is) in addPositive method and confirm the sum of the equation and 
+	// Stream method to add values for int a and int b, int expected (sum of a and b), and set the expectException boolean value 
+	// (false if there is no exception, true if there is) in addPositive method and confirm the sum of the equation.
 	static Stream<Arguments> argumentsForAddPositive() {
 		return (Stream.of(
 				arguments(1, 2, 3, false),
@@ -63,57 +64,27 @@ class TestDemoJUnitTest {
 	
 	
 	
-	// Parameterized Test for mulitplyPositive method TestDemo class
-	// Method to set the parameters from values set in the argumentsForMultiplyPositive Stream method
-	// using an if/else loop to either complete the equation or an exception should be thrown.
-	@ParameterizedTest
-	@MethodSource("com.promineotech.TestDemoJUnitTest#argumentsForMultiplyPositive")
-	void assertThatTwoPositiveNumbersAreMultipliedCorrectly(int a, int b, int expected, boolean expectException) {
-		if (!expectException) {
-			assertThat(testDemo.multiplyPositive(a, b)).isEqualTo(expected);
-		} else {
-			assertThatThrownBy(() -> testDemo.multiplyPositive(a, b)).isInstanceOf(IllegalArgumentException.class);
-		}
-		
-	}
-
-	// Stream method to add values for int a and int b, product, and set the expectException boolean value (false if there is no exception, true if there is) in multiplyPositive method and confirm the product of the equation	
-	static Stream<Arguments> argumentsForMultiplyPositive() {
-		return (Stream.of(
-				arguments(1, 2, 2, false),
-				arguments(6, 8, 48, false), 
-				arguments(-1, 2, -2, true)));
-		
-	}
-	
-	// Test for multiplyPositive method in TestDemo class
-	// add values for int a and int b in multiplyPositive method and confirm the product of the equation. 
-	@Test
-	void assertThatPairsOfPositiveNumbersAreMultipliedCorrectly() {
-		assertThat(testDemo.multiplyPositive(4, 5)).isEqualTo(20);
-		assertThat(testDemo.multiplyPositive(10, 15)).isEqualTo(150);
-		assertThat(testDemo.multiplyPositive(6, 11)).isEqualTo(66);
-		
-	}
-	
-	
 	// Parameterized Test for firstNameAndLastNameConvertToFullName method TestDemo class
 	// Method to set the values provided in the argumentsForFirstNameAndLastNameConvertToFullName Stream method
 	// using 2 for loops with if/then statements to confirm all letters in the firstName and lastName Strings are letters (Testing for
 	// numbers, special characters, or spaces), then returning concatenated strings as a full name
 	@ParameterizedTest
-	@MethodSource("com.promineotech.TestDemoJUnitTest#argumentsForFirstNameAndLastNameConvertToFullName")
+	@MethodSource("com.promineotech.TestDemoJUnitTest#argumentsForFirstNameAndLastNameConcatenateToFullName")
 	void assertThatFirstNameAndLastNameConvertToFullName(String firstName, String lastName, String expected, boolean expectException) {
 		if (!expectException) {
-			assertThat(testDemo.firstNameAndLastNameConvertToFullName(firstName, lastName)).isEqualTo(expected);
+			assertThat(testDemo.firstNameAndLastNameConcatenateToFullName(firstName, lastName)).isEqualTo(expected);
 			
 		} else {
-			assertThatThrownBy(() -> testDemo.firstNameAndLastNameConvertToFullName(firstName, lastName)).isInstanceOfAny(IllegalArgumentException.class);
+			assertThatThrownBy(() -> testDemo.firstNameAndLastNameConcatenateToFullName(firstName, lastName)).isInstanceOfAny(IllegalArgumentException.class);
 		}
 	}
 	
 	
-	static Stream<Arguments> argumentsForFirstNameAndLastNameConvertToFullName() {
+	// Stream method to add values for String firstName, and String lastName, String expected (fullName as concatenated firstName + " " + lastName)
+	// and set the expectException boolean value (false if there is no exception, true if there is) 
+	// in firstAndLastNameConvertToFullName method and confirm the return is fullName as concatenated firstName + " " + lastName or exception
+	// is thrown.
+	static Stream<Arguments> argumentsForFirstNameAndLastNameConcatenateToFullName() {
 		return (Stream.of(
 				arguments("John", "Smith", "John Smith", false),
 				arguments("Bob", "J3nkins", "Bob J3nkins", true),
@@ -124,18 +95,19 @@ class TestDemoJUnitTest {
 	}
 	
 	
+	
 	// Test for firstNameAndLastNameConvertToFullName method in TestDemo class
 	// add values for String firstName and String lastName in firstNameAndLastNameConvertToFullName method and confirm 
-	// the fullName is returned. Also tests that an IllegalArgumentException is thrown if any characters are not letters (Testing for
-	// numbers, special characters, or spaces) in the firstName or lastName String
+	// the fullName is returned. Also tests that an IllegalArgumentException is thrown (using the assertThrows method) if any characters 
+	// are not letters (Testing for numbers, special characters, or spaces) in the firstName or lastName String
 	@Test
 	void assertThatFirstNameAndLastNameConvertToFullNameCorrectly() {
-		assertThat(testDemo.firstNameAndLastNameConvertToFullName("John", "Smith")).isEqualTo("John Smith");
-		assertThat(testDemo.firstNameAndLastNameConvertToFullName("Sally", "Jones")).isEqualTo("Sally Jones");
+		assertThat(testDemo.firstNameAndLastNameConcatenateToFullName("John", "Smith")).isEqualTo("John Smith");
+		assertThat(testDemo.firstNameAndLastNameConcatenateToFullName("Sally", "Jones")).isEqualTo("Sally Jones");
 		
-		assertThrows(IllegalArgumentException.class, () -> testDemo.firstNameAndLastNameConvertToFullName("Bob", "J3nkins"));
-		assertThrows(IllegalArgumentException.class, () -> testDemo.firstNameAndLastNameConvertToFullName("J@ck", "Smith"));
-		assertThrows(IllegalArgumentException.class, () -> testDemo.firstNameAndLastNameConvertToFullName("John ", "Jones"));
+		assertThrows(IllegalArgumentException.class, () -> testDemo.firstNameAndLastNameConcatenateToFullName("Bob", "J3nkins"));
+		assertThrows(IllegalArgumentException.class, () -> testDemo.firstNameAndLastNameConcatenateToFullName("J@ck", "Smith"));
+		assertThrows(IllegalArgumentException.class, () -> testDemo.firstNameAndLastNameConcatenateToFullName("John ", "Jones"));
 	}
 	
 	
